@@ -1,0 +1,513 @@
+/* Projektmappe, Strahinja Sasa Ristic
+   Konzept: weißes Blatt auf dunklem Tisch, farbige Registerreiter am rechten Rand.
+   Jede Reiterfarbe gehört zu einem Bereich und taucht an dessen Projekten wieder auf. */
+
+@font-face {
+  font-family: "Bricolage";
+  src: url("../fonts/bricolage.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif";
+  src: url("../fonts/source-serif.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif";
+  src: url("../fonts/source-serif-italic.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --tisch: #172033;
+  --blatt: #fbfbfa;
+  --text: #1a2233;
+  --leise: #566074;
+  --linie: #cdd3dc;
+  --fond: #eef1f5;
+
+  --praxis: #1f6f6b;
+  --medien: #a8324f;
+  --studium: #9a6b12;
+  --technik: #2e5aac;
+  --ideen: #6b4fa3;
+
+  --anzeige: "Bricolage", "Segoe UI", system-ui, sans-serif;
+  --lesen: "Source Serif", Georgia, "Times New Roman", serif;
+
+  --reiter: 3.4rem;
+  --spalte: 13rem;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--tisch);
+  color: var(--text);
+  font-family: var(--lesen);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+img, video { max-width: 100%; }
+
+:focus-visible {
+  outline: 3px solid var(--tab, var(--technik));
+  outline-offset: 3px;
+}
+
+/* ---------- Mappe: Tisch, Blatt, Register ---------- */
+
+.mappe {
+  position: relative;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+}
+
+@media (min-width: 62rem) {
+  body { padding: 0 calc(var(--reiter) + 1rem) 0 2rem; }
+}
+
+.blatt {
+  background: var(--blatt);
+  padding: clamp(1.25rem, 4.5vw, 4rem);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+
+.register { position: absolute; top: 2.5rem; bottom: 4rem; left: 100%; width: var(--reiter); }
+.register ul {
+  position: sticky;
+  top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.register a {
+  display: block;
+  padding: 1.1rem 0.75rem;
+  background: var(--tab);
+  color: #fff;
+  font-family: var(--anzeige);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  writing-mode: vertical-rl;
+  border-radius: 0 0.6rem 0.6rem 0;
+  transition: transform 0.15s ease;
+}
+.register a:hover,
+.register a:focus-visible { transform: translateX(0.35rem); }
+.register a[aria-current="true"] { transform: translateX(0.6rem); }
+
+@media (max-width: 61.99rem) {
+  .mappe { padding: 0 0 2rem; }
+  .register {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    background: var(--tisch);
+  }
+  .register ul {
+    position: static;
+    flex-direction: row;
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding: 0.5rem 0.5rem 0;
+  }
+  .register a {
+    writing-mode: horizontal-tb;
+    white-space: nowrap;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .register a:hover,
+  .register a:focus-visible { transform: none; }
+  .register a[aria-current="true"] { transform: none; box-shadow: 0 -4px 0 #fff inset; }
+  .blatt { box-shadow: none; }
+}
+
+/* ---------- Deckblatt ---------- */
+
+.deckblatt { padding-bottom: 1rem; }
+
+h1 {
+  margin: 0;
+  font-family: var(--anzeige);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 8.5vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+.mappentitel {
+  display: block;
+  font-weight: 300;
+  color: var(--leise);
+}
+.name { display: block; }
+
+.einstieg {
+  max-width: 38rem;
+  margin: 2rem 0 1rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  line-height: 1.5;
+}
+
+.kontakt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0 0 2.5rem;
+  font-family: var(--anzeige);
+  font-size: 1rem;
+}
+
+.inhalt {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--linie);
+}
+.inhalt li {
+  border-bottom: 1px solid var(--linie);
+  border-left: 8px solid var(--tab);
+}
+.inhalt a {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+}
+.inhalt a:hover { background: var(--fond); }
+.inhalt strong {
+  font-family: var(--anzeige);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.inhalt span { color: var(--leise); font-size: 1rem; }
+
+@media (max-width: 40rem) {
+  .inhalt a { grid-template-columns: 1fr; }
+}
+
+/* ---------- Bereiche ---------- */
+
+.bereich { margin-top: 5rem; }
+
+.bereichskopf {
+  margin-bottom: 1.5rem;
+  padding-left: 1.1rem;
+  border-left: 8px solid var(--tab);
+}
+h2 {
+  margin: 0 0 0.6rem;
+  font-family: var(--anzeige);
+  font-weight: 750;
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.bereichskopf p { max-width: 40rem; margin: 0; color: var(--leise); }
+
+/* ---------- Projekte ---------- */
+
+.projekt {
+  display: grid;
+  grid-template-columns: var(--spalte) minmax(0, 1fr);
+  column-gap: 2rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--linie);
+}
+
+.titel {
+  grid-area: titel;
+  margin: 0 0 0.6rem;
+  font-family: var(--anzeige);
+  font-weight: 650;
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.meta {
+  grid-area: meta;
+  align-self: start;
+  margin: 0;
+  padding-top: 0.55rem;
+  border-top: 3px solid var(--tab);
+  font-family: var(--anzeige);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--leise);
+}
+.medien { grid-area: medien; margin: 0 0 1.25rem; }
+.text { grid-area: text; max-width: 40rem; }
+.text p { margin: 0 0 0.9rem; }
+
+.projekt.zeile {
+  grid-template-areas:
+    "meta titel"
+    "meta medien"
+    "meta text";
+}
+.projekt.gross {
+  grid-template-areas:
+    "titel titel"
+    "medien medien"
+    "meta   text";
+}
+.projekt.gross .titel { font-size: clamp(1.7rem, 3.6vw, 2.3rem); margin-bottom: 1rem; }
+
+@media (max-width: 47.99rem) {
+  .projekt.zeile,
+  .projekt.gross {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "titel"
+      "meta"
+      "medien"
+      "text";
+  }
+  .meta { margin-bottom: 1rem; }
+}
+
+.rolle { font-family: var(--anzeige); font-size: 0.98rem; }
+.rolle b { font-weight: 650; }
+
+/* Medien */
+
+figure { margin: 0; }
+figcaption {
+  margin-top: 0.4rem;
+  font-family: var(--anzeige);
+  font-size: 0.88rem;
+  color: var(--leise);
+}
+video {
+  display: block;
+  width: 100%;
+  background: #0d1424;
+  border-radius: 6px;
+}
+.medien > figure > video { aspect-ratio: 16 / 9; }
+
+.raster {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.raster img { display: block; width: 100%; height: auto; border-radius: 6px; }
+@media (max-width: 47.99rem) {
+  .raster { grid-template-columns: minmax(0, 1fr); }
+}
+
+.audio-paar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin: 0 0 1rem;
+}
+.audio-paar audio { width: min(100%, 22rem); }
+
+/* Dateien als ruhige Links */
+
+.dateien {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.dateien a {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--linie);
+  border-radius: 999px;
+  font-family: var(--anzeige);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.dateien a:hover { border-color: var(--tab); background: var(--fond); }
+
+/* ---------- Fuß ---------- */
+
+.fuss {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linie);
+  font-family: var(--anzeige);
+  font-size: 0.95rem;
+  color: var(--leise);
+}
+.fuss p { margin: 0 0 0.3rem; }
+
+/* ---------- Entwurfsmodus ---------- */
+
+.entwurf-hinweis { display: none; }
+
+body.entwurf .offen {
+  background: #fff3d6;
+  outline: 1px dashed #b7791f;
+  outline-offset: 2px;
+}
+body.entwurf a.offen { text-decoration: none; }
+body.entwurf .entwurf-hinweis {
+  display: block;
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  background: #fff3d6;
+  border: 1px dashed #b7791f;
+  border-radius: 6px;
+  font-family: var(--anzeige);
+  font-size: 0.88rem;
+  color: #5c3d00;
+}
+
+/* ---------- Druck ---------- */
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .register, .entwurf-hinweis { display: none; }
+  .blatt { box-shadow: none; padding: 0; }
+  .projekt { break-inside: avoid; }
+}
+
+/* ---------- Audio-Player (wird von js/app.js gebaut, ohne Skript bleibt der Standard-Player) ---------- */
+
+.player {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "knopf titel" "knopf leiste";
+  align-items: center;
+  gap: 0.15rem 1rem;
+  width: min(100%, 26rem);
+  padding: 0.85rem 1.1rem 0.85rem 0.85rem;
+  border: 1px solid var(--linie);
+  border-radius: 0.75rem;
+  background: var(--fond);
+  font-family: var(--anzeige);
+}
+.player__knopf {
+  grid-area: knopf;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--tab, var(--medien));
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.player__knopf:hover { transform: scale(1.06); }
+.player__knopf svg { width: 1.35rem; height: 1.35rem; fill: currentColor; }
+.player__knopf .pause { display: none; }
+.player.laeuft .player__knopf .play { display: none; }
+.player.laeuft .player__knopf .pause { display: block; }
+.player__titel { grid-area: titel; font-weight: 650; font-size: 1rem; line-height: 1.25; }
+.player__leiste { grid-area: leiste; display: flex; align-items: center; gap: 0.7rem; }
+.player__leiste input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  height: 1.5rem;
+  margin: 0;
+  accent-color: var(--tab, var(--medien));
+  cursor: pointer;
+}
+.player__zeit { font-size: 0.85rem; color: var(--leise); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.audio-paar figure.hat-player figcaption { display: none; }
+
+/* Mehrere Videos nebeneinander */
+.videoliste {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+.videoliste video { aspect-ratio: 16 / 9; }
+
+/* Porträt auf dem Deckblatt */
+.kopf { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2.5rem; align-items: end; margin-bottom: 2.5rem; }
+.kopf .kontakt { margin-bottom: 0; }
+.portrait { margin: 0; grid-column: 2; grid-row: 1; }
+.kopf__text { grid-column: 1; grid-row: 1; }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; border-radius: 6px; border-bottom: 8px solid var(--medien); }
+@media (max-width: 47.99rem) {
+  .kopf { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .portrait { grid-column: 1; grid-row: 1; width: 9.5rem; }
+  .kopf__text { grid-row: 2; }
+}
+
+/* Impressum und Datenschutz */
+.rechtstext { max-width: 46rem; margin: 0 auto; }
+.rechtstext h1 { font-size: clamp(2rem, 6vw, 3.2rem); margin-bottom: 0.5rem; }
+.rechtstext h2 { font-size: 1.35rem; margin: 2.2rem 0 0.5rem; letter-spacing: -0.01em; }
+.rechtstext p { margin: 0 0 1rem; max-width: 40rem; }
+.rechtstext .hinweis { color: var(--leise); font-family: var(--anzeige); }
+.rechtstext .zurueck { font-family: var(--anzeige); margin-bottom: 2rem; }
+.rechtstext .zurueck:last-child { margin: 2.5rem 0 0; }
+.fuss a { text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+/* Dokumente mit Vorschau der ersten Seite */
+.dokumente { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-start; }
+.dok { display: block; text-decoration: none; color: inherit; }
+.dok img {
+  display: block;
+  height: 15rem;
+  width: auto;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid var(--linie);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(23, 32, 51, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.dok:hover img, .dok:focus-visible img { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(23, 32, 51, 0.2); }
+.dok span { display: block; margin-top: 0.55rem; font-family: var(--anzeige); font-size: 0.88rem; color: var(--leise); }
+.dok:hover span { color: var(--text); text-decoration: underline; }
+@media (max-width: 47.99rem) { .dok img { height: auto; max-height: 17rem; } }
+@media print { .dok img { box-shadow: none; } }
+
+/* Dokument-Vorschauen links unter der Beschreibung (Semester, Rolle im Studium) */
+.seite { grid-area: meta; align-self: start; min-width: 0; }
+.seite .dokumente { flex-direction: column; gap: 1.1rem; margin-top: 1.25rem; }
+.seite .dok { width: 100%; }
+.seite .dok img { width: 100%; height: auto; }
+@media (max-width: 47.99rem) {
+  .seite { margin-bottom: 1rem; }
+  .seite .dokumente { flex-direction: row; flex-wrap: wrap; }
+  .seite .dok { width: auto; max-width: 100%; }
+  .seite .dok img { width: auto; height: auto; max-height: 14rem; max-width: 100%; }
+}
+.projekt:has(> .seite) { grid-template-rows: auto auto 1fr; }
+.projekt:has(> .seite) .text { align-self: start; }

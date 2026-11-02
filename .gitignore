@@ -1,0 +1,15 @@
+*.tmp
+*.part.mp4
+*.tmp.mp4
+media/stereum-event-diary-devconnect.mp4
+media/stereum-solo-staking.mp4
+media/stereum-devconnect-plan.mp4
+img/stereum-event-diary-devconnect.jpg
+img/stereum-solo-staking.jpg
+img/stereum-devconnect-plan.jpg
+img/bridge-anmeldung.jpg
+img/bridge-newsletter.jpg
+img/bridge-website.jpg
+docs/bridge-the-gap-big-idea.pdf
+docs/bridge-the-gap-persona.pdf
+docs/bridge-the-gap-newsletter.pdf
